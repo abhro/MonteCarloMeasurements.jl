@@ -17,9 +17,11 @@ jobs:
         with:
           version: ${{ matrix.julia-version }}
       - name: Install dependencies
-        run: julia -e 'using Pkg; Pkg.add(Pkg.PackageSpec(name = "CompatHelper", url = "https://github.com/bcbi/CompatHelper.jl.git"))'
-      - name: CompatHelper.main
+        shell: julia --color=yes {0}
+        run: 'using Pkg; Pkg.add(Pkg.PackageSpec(name = "CompatHelper", url = "https://github.com/bcbi/CompatHelper.jl.git"))'
+      - name: Run CompatHelper
+        shell: julia --color=yes {0}
+        run: 'using CompatHelper; CompatHelper.main()'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JULIA_DEBUG: CompatHelper
-        run: julia -e 'using CompatHelper; CompatHelper.main()'
